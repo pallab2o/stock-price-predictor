@@ -1,7 +1,7 @@
 <div align="center">
   <img src="logo.png" alt="Logo" width="200" height="200">
 </div>
-<h1 align="center">Stock Price Prediction App</h1>
+<h1 align="center">Stock Predictor</h1>
 <p align="center">This is a web application built with Streamlit that allows users to predict stock prices using historical data. Users can input a stock symbol, adjust advanced settings, and visualize the predictions along with the actual stock value over time.</p>
 <h2 align="center">Features</h2>
 <p align="center">
