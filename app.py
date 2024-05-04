@@ -103,55 +103,56 @@ def main():
         start = st.number_input('Start', value=1000)
         step = st.number_input('Step', value=750)
     
-    if symbol:
-        # Attempt to retrieve data for the provided stock symbol
-        try:
-            data, predictions = model(symbol)
-            profit = profitcalc(predictions, data)
+    if st.button('Run'):
+        if symbol:
+            # Attempt to retrieve data for the provided stock symbol
+            try:
+                data, predictions = model(symbol)
+                profit = profitcalc(predictions, data)
 
-            from sklearn.metrics import precision_score 
-            precision = 100 * precision_score(predictions["Target"], predictions["Predictions"])
+                from sklearn.metrics import precision_score 
+                precision = 100 * precision_score(predictions["Target"], predictions["Predictions"])
 
-            # Display predictions
-            st.sidebar.subheader('Predictions DataFrame')
-            st.sidebar.write(predictions)
+                # Display predictions
+                st.sidebar.subheader('Predictions DataFrame')
+                st.sidebar.write(predictions)
 
-            # Plot the predictions vs target and the actual stock value over time
-            
-            import matplotlib.pyplot as plt
+                # Plot the predictions vs target and the actual stock value over time
+                
+                import matplotlib.pyplot as plt
 
-             # Plot the graph
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.plot(predictions.index, predictions['Target'], label='Target', marker='o')
-            ax.plot(predictions.index, predictions['Predictions'], label='Predictions', marker='x')
-            ax.set_xlabel('Date')
-            ax.set_ylabel('Value')
-            ax.set_title('Target vs Predictions')
-            ax.legend()
-            plt.xticks(rotation=45)
-            plt.tight_layout()
+                # Plot the graph
+                fig, ax = plt.subplots(figsize=(10, 6))
+                ax.plot(predictions.index, predictions['Target'], label='Target', marker='o')
+                ax.plot(predictions.index, predictions['Predictions'], label='Predictions', marker='x')
+                ax.set_xlabel('Date')
+                ax.set_ylabel('Value')
+                ax.set_title('Target vs Predictions')
+                ax.legend()
+                plt.xticks(rotation=45)
+                plt.tight_layout()
 
-            # Plot the data line
-            fig2, ax2 = plt.subplots(figsize=(10, 6))
-            data["Close"].plot.line(ax=ax2, use_index=True)
-            ax2.set_xlabel('Date')
-            ax2.set_ylabel('Close Value')
-            ax2.set_title('Close Value Over Time')
-            ax2.grid(True)
+                # Plot the data line
+                fig2, ax2 = plt.subplots(figsize=(10, 6))
+                data["Close"].plot.line(ax=ax2, use_index=True)
+                ax2.set_xlabel('Date')
+                ax2.set_ylabel('Close Value')
+                ax2.set_title('Close Value Over Time')
+                ax2.grid(True)
 
-            # Display the plots using Streamlit
-            st.pyplot(fig2)
-            st.pyplot(fig)
-            
+                # Display the plots using Streamlit
+                st.pyplot(fig2)
+                st.pyplot(fig)
+                
 
-            # Display the profit value centered below both
-            st.markdown('<h2 style="text-align: center; color: blue;">Model Accuracy: {:.2f}%</h2>'.format(precision), unsafe_allow_html=True)
-            if profit > 0:
-                st.markdown('<h2 style="text-align: center; color: green;">Profit: ${:.2f}</h2>'.format(profit), unsafe_allow_html=True)
-            else:
-                st.markdown('<h2 style="text-align: center; color: red;">Loss: ${:.2f}</h2>'.format(abs(profit)), unsafe_allow_html=True)
-        except Exception as e:
-            st.error(f"An error occurred: {str(e)}")
+                # Display the profit value centered below both
+                st.markdown('<h2 style="text-align: center; color: blue;">Model Accuracy: {:.2f}%</h2>'.format(precision), unsafe_allow_html=True)
+                if profit > 0:
+                    st.markdown('<h2 style="text-align: center; color: green;">Profit: ${:.2f}</h2>'.format(profit), unsafe_allow_html=True)
+                else:
+                    st.markdown('<h2 style="text-align: center; color: red;">Loss: ${:.2f}</h2>'.format(abs(profit)), unsafe_allow_html=True)
+            except Exception as e:
+                st.error(f"An error occurred: {str(e)}")
 
 if __name__ == '__main__':
     main()
