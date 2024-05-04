@@ -4,14 +4,17 @@ import pandas as pd
 
 import yfinance as yf
 
-def model(symbol):                                                   
+def model(symbol,start,step):                                                   
     trid = yf.Ticker(symbol)
     trid_hist = trid.history(period="max")
 
     data = trid_hist[["Close"]]
     data = data.rename(columns = {'Close': 'Actual_Close'})
     data["Target"]= trid_hist.rolling(2).apply(lambda x: x.iloc[1] > x.iloc[0])["Close"]
-
+    
+    if data.empty:
+        st.error("Invalid Stock Symbol")
+    
     trid_prev = trid_hist.copy()
 
     trid_prev = trid_prev.shift(1)
@@ -27,8 +30,6 @@ def model(symbol):
 
     import pandas as pd
 
-    start = 1000
-    step = 750
     def backtest(data, model, predictors, start, step):
         predictions = []
         for i in range(start, data.shape[0], step):
@@ -67,7 +68,7 @@ def model(symbol):
     full_predictors = predictors + ["weekly_mean","quarterly_mean","annual_mean","annual_weekly_mean","annual_quarterly_mean","quarterly_weekly_mean"]
 
     return backtest(data, model, full_predictors, start, step)
-
+    
 def profitcalc(predictions, data):
     profit = 0
     data = data.iloc[100:]
@@ -80,45 +81,46 @@ def profitcalc(predictions, data):
             data_index = data.index[data.index.get_loc(prediction_index)]
             profit += data.loc[data_index, 'Close'] - data.loc[data_index, 'Open']
     return profit
-
+        
+                
 def main():
-    st.title('Stock Price Prediction App')
+    st.sidebar.image("logo.png", use_column_width=True)
 
-    st.sidebar.markdown(
-        """
-        <div style='background-color: #f0f0f5; padding: 10px; border-radius: 10px;'>
-        <h3 style='color: #333333;'>Welcome to Stock Price Prediction App</h3>
-        <p>This app allows you to predict stock prices using historical data. Enter the stock symbol in the text box on the left sidebar and adjust the advanced settings if needed.</p>
-        <p>Once you've entered the stock symbol, click the 'Run' button to see the predictions and the actual stock value over time.</p>
-        <p>Feel free to explore the app and visualize the predictions!</p>
-        </div>
-        """, unsafe_allow_html=True
-    )
+    st.title("Stock Predictor")
+
+    from streamlit_modal import Modal
+    modal = Modal(key="Demo Key",title="test")
+    modal = Modal(key="welcome_modal", title="Welcome to Stock Price Prediction App")
+
+    open_modal_button = st.button("Welcome!")
+
+    if open_modal_button:
+        with modal.container():
+            st.write("This app allows you to predict stock prices using historical data.")
+            st.write("Enter the stock symbol in the text box below and adjust the advanced settings if needed.")
+            st.write("Once you've entered the stock symbol, click the 'Run' button to see the predictions and the actual stock value over time.")
+            st.write("Feel free to explore the app and visualize the predictions!")
 
     # User input for stock symbol
-    symbol = st.text_input('Enter Stock Symbol (e.g., AAPL, MSFT)')
-    # Sidebar for advanced settings
-    with st.sidebar:
-        st.subheader('Advanced Settings')
-        start = st.number_input('Start', value=1000)
-        step = st.number_input('Step', value=750)
-    
-    if st.button('Run'):
+    symbol = st.sidebar.text_input('Enter Stock Symbol (e.g., AAPL)')
+
+    # Advanced settings in the left sidebar
+    st.sidebar.subheader('Advanced Settings')
+    st.sidebar.warning('For faster results, use high step values')
+    start = st.sidebar.number_input('Start', value=1000)
+    step = st.sidebar.number_input('Step', value=750)
+
+    if st.sidebar.button('Run'):
         if symbol:
             # Attempt to retrieve data for the provided stock symbol
             try:
-                data, predictions = model(symbol)
+                data, predictions = model(symbol, start, step)
                 profit = profitcalc(predictions, data)
 
                 from sklearn.metrics import precision_score 
                 precision = 100 * precision_score(predictions["Target"], predictions["Predictions"])
 
-                # Display predictions
-                st.sidebar.subheader('Predictions DataFrame')
-                st.sidebar.write(predictions)
-
                 # Plot the predictions vs target and the actual stock value over time
-                
                 import matplotlib.pyplot as plt
 
                 # Plot the graph
@@ -143,16 +145,20 @@ def main():
                 # Display the plots using Streamlit
                 st.pyplot(fig2)
                 st.pyplot(fig)
-                
 
-                # Display the profit value centered below both
-                st.markdown('<h2 style="text-align: center; color: blue;">Model Accuracy: {:.2f}%</h2>'.format(precision), unsafe_allow_html=True)
+                # Display the profit value and accuracy on the main screen
+                st.markdown(
+                    """
+                    <div style='background-color: #f0f0f5; padding: 10px; border-radius: 10px;'>
+                    <h2 style='text-align: center;'>Model Accuracy: {:.2f}%</h2>
+                    """.format(precision), unsafe_allow_html=True)
                 if profit > 0:
                     st.markdown('<h2 style="text-align: center; color: green;">Profit: ${:.2f}</h2>'.format(profit), unsafe_allow_html=True)
                 else:
                     st.markdown('<h2 style="text-align: center; color: red;">Loss: ${:.2f}</h2>'.format(abs(profit)), unsafe_allow_html=True)
-            except Exception as e:
-                st.error(f"An error occurred: {str(e)}")
+            except:
+                st.error("An error occurred. Please try again!")
+
 
 if __name__ == '__main__':
     main()
