@@ -147,11 +147,7 @@ def main():
                 st.pyplot(fig)
 
                 # Display the profit value and accuracy on the main screen
-                st.markdown(
-                    """
-                    <div style='background-color: #f0f0f5; padding: 10px; border-radius: 10px;'>
-                    <h2 style='text-align: center;'>Model Accuracy: {:.2f}%</h2>
-                    """.format(precision), unsafe_allow_html=True)
+                st.markdown('<h2 style="text-align: center; color: blue;">Model Accuracy:{:.2f}</h2>'.format(precision), unsafe_allow_html=True)
                 if profit > 0:
                     st.markdown('<h2 style="text-align: center; color: green;">Profit: ${:.2f}</h2>'.format(profit), unsafe_allow_html=True)
                 else:
