@@ -1,7 +1,3 @@
-Sure, here's a suggested README file for your GitHub project:
-
----
-
 # Stock Price Prediction App
 
 This is a web application built with Streamlit that allows users to predict stock prices using historical data. Users can input a stock symbol, adjust advanced settings, and visualize the predictions along with the actual stock value over time.
@@ -37,6 +33,10 @@ To run the app locally, follow these steps:
 3. Run the Streamlit app by executing `streamlit run app.py` in your terminal.
 4. Access the app in your web browser at `http://localhost:8501`.
 
+## Deployed Website
+
+The app is already deployed and accessible online. You can try it out at [Stock Price Prediction App](https://stock-predictor-pallab2o.streamlit.app/#stock-predictor).
+
 ## Feedback and Contributions
 
 Feedback, bug reports, and contributions are welcome! If you encounter any issues or have suggestions for improvement, please [open an issue](https://github.com/yourusername/stock-price-prediction-app/issues) or [submit a pull request](https://github.com/yourusername/stock-price-prediction-app/pulls).
@@ -46,5 +46,3 @@ Feedback, bug reports, and contributions are welcome! If you encounter any issue
 This project was inspired by the need for a simple and user-friendly tool to predict stock prices and visualize the results. Special thanks to the Streamlit and Yahoo Finance communities for their contributions and support.
 
 ---
-
-Feel free to customize this README file based on your project's specific details and requirements. Let me know if you need further assistance!
