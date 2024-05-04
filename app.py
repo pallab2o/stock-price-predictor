@@ -84,8 +84,19 @@ def profitcalc(predictions, data):
 def main():
     st.title('Stock Price Prediction App')
 
+    st.sidebar.markdown(
+        """
+        <div style='background-color: #f0f0f5; padding: 10px; border-radius: 10px;'>
+        <h3 style='color: #333333;'>Welcome to Stock Price Prediction App</h3>
+        <p>This app allows you to predict stock prices using historical data. Enter the stock symbol in the text box on the left sidebar and adjust the advanced settings if needed.</p>
+        <p>Once you've entered the stock symbol, click the 'Run' button to see the predictions and the actual stock value over time.</p>
+        <p>Feel free to explore the app and visualize the predictions!</p>
+        </div>
+        """, unsafe_allow_html=True
+    )
+
     # User input for stock symbol
-    symbol = st.text_input('Enter Stock Symbol (e.g., AAPL, MSFT)', 'AAPL')
+    symbol = st.text_input('Enter Stock Symbol (e.g., AAPL, MSFT)')
     # Sidebar for advanced settings
     with st.sidebar:
         st.subheader('Advanced Settings')
