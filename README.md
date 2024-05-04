@@ -39,7 +39,7 @@ To run the app locally, follow these steps:
 
 ## Deployed Website
 
-The app is already deployed and accessible online. You can try it out at [Stock Price Prediction App](https://stock-predictor-pallab2o.streamlit.app/#stock-predictor).
+The app is already deployed and accessible online. You can try it out at [Stock Price Prediction App](https://stock-predictorv2.streamlit.app/#stock-predictor).
 
 ## Feedback and Contributions
 
