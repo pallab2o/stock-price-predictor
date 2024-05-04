@@ -107,8 +107,8 @@ def main():
     # Advanced settings in the left sidebar
     st.sidebar.subheader('Advanced Settings')
     st.sidebar.warning('For faster results, use high step values')
-    start = st.sidebar.number_input('Start', value=1000)
-    step = st.sidebar.number_input('Step', value=750)
+    start = st.sidebar.number_input('Start', value=1000, help="Start index for the prediction range.")
+    step = st.sidebar.number_input('Step', value=750, help="Step size for the prediction range.")
 
     if st.sidebar.button('Run'):
         if symbol:
