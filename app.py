@@ -139,22 +139,21 @@ def main():
 
     st.title("Stock Predictor")
 
-    from streamlit_modal import Modal
-    modal = Modal(key="welcome_modal", title="How to use")
+    @st.experimental_dialog("How to use")
+    def modal_content():
+        st.write("1. Click on the top left arrow if you can't see the input fields.")
+        st.write("2. Enter the stock symbol of your choice in the text box provided.")
+        st.write("3. Select the trading strategy you wish to employ from the dropdown menu.")
+        st.write("4. Adjust any advanced settings if needed, such as the start index and step size.")
+        st.write("5. Optionally, you can also add a stop loss by entering the desired value in the provided text box.")
+        st.write("6. Click the 'Run' button to see the predictions and the actual stock value over time.")
+        st.write("Explore the app further to visualize the predictions and analyze the results.")
+        st.write("Enjoy predicting stock trends with ease!")
 
     open_modal_button = st.button("Tip💡")
 
     if open_modal_button:
-        with modal.container():
-
-            st.write("1. Click on the top left arrow if you can't see the input fields.")
-            st.write("2. Enter the stock symbol of your choice in the text box provided.")
-            st.write("3. Select the trading strategy you wish to employ from the dropdown menu. You can choose from options like 'Daily', 'Weekly', 'Monthly', 'Quarterly', or 'Yearly'.")
-            st.write("4. Adjust any advanced settings if needed, such as the start index and step size.")
-            st.write("5. Optionally, you can also add a stop loss by entering the desired value in the provided text box. Leave it empty if not required.")
-            st.write("6. Click the 'Run' button to see the predictions and the actual stock value over time.")
-            st.write("Explore the app further to visualize the predictions and analyze the results.")
-            st.write("Enjoy predicting stock trends with ease!")
+        modal_content()
 
     # User input for stock symbol
     symbol = st.sidebar.text_input('Enter Stock Symbol (e.g., AAPL)')
