@@ -212,7 +212,7 @@ def main():
 
 
                 # Display the profit value and accuracy on the main screen
-                st.markdown('<h2 style="text-align: center; color: blue;">Model Accuracy:{:.2f}</h2>'.format(precision), unsafe_allow_html=True)
+                st.markdown('<h2 style="text-align: center; color: blue;">Model Precision:{:.2f}</h2>'.format(precision), unsafe_allow_html=True)
                 if profit > 0:
                     st.markdown('<h2 style="text-align: center; color: green;">Profit: ${:.2f}</h2>'.format(profit), unsafe_allow_html=True)
                     st.toast("The profit was calculated using the greedy algorithm.")
